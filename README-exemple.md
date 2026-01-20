@@ -1,9 +1,9 @@
-# Titre du Projet (ex: My Super DevOps Stack)
+# API Open Food Facts
 
 > **⚠️ MEMBRES DU GROUPE :**
-> - **NOM Prénom** (Rôle éventuel, ex: Dev)
-> - **NOM Prénom** (Rôle éventuel, ex: Infra)
-> - **NOM Prénom**
+> - ATALLAH Joud
+> - HDILOU Walid
+
 
 ---
 
