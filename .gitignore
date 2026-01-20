@@ -1,0 +1,15 @@
+# --- Node.js (Backend) ---
+node_modules/
+npm-debug.log
+
+# --- Docker & Données ---
+.docker/
+data/
+db/
+
+# --- Système ---
+.DS_Store
+Thumbs.db
+
+# --- Environnement (Sécurité) ---
+.env
