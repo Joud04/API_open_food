@@ -8,8 +8,7 @@
 ---
 
 ## 1. Présentation du Projet
-*Décrivez ici en quelques lignes le but de votre application.*
-*Exemple : Ce projet est une stack permettant de gérer une liste de tâches (TodoList) avec une interface web et une base de données, le tout monitoré via Portainer.*
+Ce projet est une application Fullstack permettant de rechercher des produits alimentaires via l'API Open Food Facts. Elle affiche les détails du produit (image, marque) et sauvegarde automatiquement l'historique des recherches dans une base de données.
 
 **Fonctionnalités principales :**
 * Fonctionnalité 1
