@@ -58,7 +58,7 @@ services:
   cloudflared:
     image: cloudflare/cloudflared:latest
     container_name: cloudflared
-    command: tunnel --url http://caddy:80
+    command: tunnel --protocol http2 --url http://caddy:80
     user: "1001:1001"
     environment:
       - PUID=1001

@@ -49,7 +49,7 @@ app.get('/api/initial', async (req, res) => {
     try {
         const categories = ["snack", "chocolat", "boisson", "biscuit", "pizza"];
         const randomCat = categories[Math.floor(Math.random() * categories.length)];
-        const url = `https://world.openfoodfacts.org/cgi/search.pl?search_terms=${randomCat}&search_simple=1&action=process&json=1&page_size=24&sort_by=popularity&fields=${FIELDS}`;
+        const url = `https://world.openfoodfacts.org/cgi/search.pl?search_terms=${randomCat}&search_simple=1&action=process&json=1&page_size=20&sort_by=popularity&fields=${FIELDS}`;
         const data = await callApi(url, "HOME");
         res.json(data.products || []);
     } catch (error) {
@@ -76,7 +76,7 @@ app.get('/api/search', async (req, res) => {
                 productToSave = data.product;
             }
         } else {
-            const url = `https://world.openfoodfacts.org/cgi/search.pl?search_terms=${query}&search_simple=1&action=process&json=1&page_size=24&fields=${FIELDS}`;
+            const url = `https://world.openfoodfacts.org/cgi/search.pl?search_terms=${query}&search_simple=1&action=process&json=1&page_size=20&fields=${FIELDS}`;
             const data = await callApi(url, "SEARCH");
             results = data.products || [];
             if(results.length > 0) productToSave = results[0];
