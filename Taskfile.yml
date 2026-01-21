@@ -1,0 +1,29 @@
+version: '3'
+
+tasks:
+  # Commande pour tout lancer d'un coup
+  run:
+    desc: Construit et lance tout le projet
+    cmds:
+      - docker-compose up -d --build
+      - echo "Tout est lancé ! Site dispo sur http://localhost"
+
+  # Commande pour tout arrêter
+  stop:
+    desc: Arrête les conteneurs
+    cmds:
+      - docker-compose stop
+      - echo "Projet arrêté."
+
+  # Commande pour tout nettoyer 
+  clean:
+    desc: Supprime tout (conteneurs + volumes) pour repartir à zéro
+    cmds:
+      - docker-compose down -v
+      - echo "Nettoyage terminé."
+  
+  # Commande pour voir les logs 
+  logs:
+    desc: Affiche les logs du backend et du frontend
+    cmds:
+      - docker-compose logs -f

@@ -3,134 +3,104 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Food Scanner</title>
-    <link rel="stylesheet" href="style.css">
+    <title>Food Scan Pro</title>
+    <link rel="stylesheet" href="style2.css">
 </head>
 <body>
 
     <header>
         <h1>🍏 Fresh Food Scan</h1>
-        <p>Recherchez vos produits préférés</p>
+        <p>Recherche rapide & Historique</p>
+
+        <a href="/admin/" class="admin-link" target="_blank">🔒 Admin</a>
     </header>
 
     <div class="search-container">
         <div class="search-box">
-            <input type="text" id="search" placeholder="Nutella, Coca, 327408..." onkeypress="handleEnter(event)">
-            <button class="search-btn" onclick="search()">Chercher</button>
+            <input type="text" id="search" placeholder="Marque, produit..." onkeypress="if(event.key==='Enter') search()">
+            <button onclick="search()">Rechercher</button>
         </div>
     </div>
 
     <main>
         <div id="gallery"></div>
-
-        <div id="product-detail">
-            <div class="green-header">Détails du produit</div>
-            <img id="d-img" style="max-height:200px; margin-bottom:20px;" src="">
-            
-            <h2 id="d-name">-</h2>
-            <p style="color:#777">Marque : <span id="d-brand">-</span></p>
-
-            <div style="display:flex; justify-content:center; gap:20px; margin: 20px 0;">
-                <img id="d-nutri" height="50" src="">
-                <img id="d-eco" height="50" src="">
-            </div>
-
-            <div style="border-top:1px solid #eee; padding-top:15px; text-align:left;">
-                <strong>Infos / Allergènes :</strong>
-                <div id="d-allergens" class="badges"></div>
-            </div>
-
-            <button onclick="closeDetail()" style="margin-top:20px; padding:10px 20px; border:none; background:#333; color:white; border-radius:30px; cursor:pointer;">Retour</button>
-        </div>
     </main>
 
+    <div id="overlay" onclick="closeDetail()"></div>
+    <div id="detail">
+        <img id="d-img" style="height:150px; margin-bottom:15px">
+        <h2 id="d-name"></h2>
+        <p id="d-brand"></p>
+        <div id="d-badges" style="display:flex; justify-content:center; gap:10px; margin:20px 0;"></div>
+        <button onclick="closeDetail()">Fermer</button>
+    </div>
+
     <script>
-        const API = "http://localhost:3000/api";
+        const API = "/api";
         const gallery = document.getElementById('gallery');
-        const detail = document.getElementById('product-detail');
-
-        document.addEventListener('DOMContentLoaded', loadInitial);
-
-        function handleEnter(e) { if(e.key === 'Enter') search(); }
-
-        function showSkeletons() {
-            gallery.innerHTML = '';
-            detail.style.display = 'none';
-            gallery.style.display = 'grid';
-            for(let i=0; i<8; i++) gallery.innerHTML += `<div class="skeleton"></div>`;
-        }
-
-        async function loadInitial() {
-            showSkeletons();
-            try {
-                const res = await fetch(`${API}/initial`);
-                const products = await res.json();
-                displayGallery(products);
-            } catch(e) {
-                gallery.innerHTML = "<p style='text-align:center'>Erreur connexion serveur...</p>";
-            }
-        }
-
+        
         async function search() {
             const val = document.getElementById('search').value;
             if(!val) return;
+            gallery.innerHTML = '<p style="text-align:center">Chargement...</p>';
             
-            showSkeletons();
             try {
                 const res = await fetch(`${API}/search?q=${val}`);
                 const products = await res.json();
-                
-                if(products.length === 1) showProduct(products[0]);
-                else displayGallery(products);
+                display(products);
             } catch(e) {
-                gallery.innerHTML = "<p style='text-align:center'>Aucun résultat.</p>";
+                gallery.innerHTML = '<p style="text-align:center">Erreur serveur</p>';
             }
         }
 
-        function displayGallery(products) {
+        function display(products) {
             gallery.innerHTML = '';
-            if(!products || products.length === 0) {
-                gallery.innerHTML = "<p style='text-align:center'>Aucun produit trouvé.</p>";
-                return;
-            }
+            if(!products.length) { gallery.innerHTML = '<p>Aucun résultat</p>'; return; }
 
             products.forEach(p => {
-                const img = p.image_front_small_url || p.image_front_url || 'https://placehold.co/150x150?text=No+Image';
+                const img = p.image_front_small_url || p.image_front_url || 'https://placehold.co/150';
+                const n = p.nutriscore_grade ? `https://static.openfoodfacts.org/images/misc/nutriscore-${p.nutriscore_grade}.svg` : null;
+                const e = p.ecoscore_grade ? `https://static.openfoodfacts.org/images/attributes/ecoscore-${p.ecoscore_grade}.svg` : null;
+
                 const card = document.createElement('div');
                 card.className = 'card';
-                card.onclick = () => showProduct(p);
+                card.onclick = () => showDetail(p);
+
                 card.innerHTML = `
-                    <img src="${img}" loading="lazy" onerror="this.src='https://placehold.co/150x150?text=Error'">
-                    <h4>${p.product_name || 'Inconnu'}</h4>
-                    <small>${p.brands || ''}</small>
+                    <div class="img-wrap">
+                        <img src="${img}" onerror="this.src='https://placehold.co/150?text=Pas+d+image'">
+                    </div>
+                    <div>
+                        <small>${p.brands || 'Marque inconnue'}</small>
+                        <h4>${p.product_name || 'Produit sans nom'}</h4>
+                    </div>
+                    <div class="badges">
+                        ${n ? `<img src="${n}" onerror="this.style.display='none'">` : ''}
+                        ${e ? `<img src="${e}" onerror="this.style.display='none'">` : ''}
+                    </div>
                 `;
                 gallery.appendChild(card);
             });
         }
 
-        function showProduct(p) {
-            gallery.style.display = 'none';
-            detail.style.display = 'block';
-
-            document.getElementById('d-img').src = p.image_front_url || p.image_front_small_url || '';
-            document.getElementById('d-name').innerText = p.product_name || "Nom inconnu";
-            document.getElementById('d-brand').innerText = p.brands || "-";
-
-            const n = p.nutriscore_grade ? p.nutriscore_grade.toLowerCase() : 'unknown';
-            const e = p.ecoscore_grade ? p.ecoscore_grade.toLowerCase() : 'unknown';
-            document.getElementById('d-nutri').src = `https://static.openfoodfacts.org/images/misc/nutriscore-${n}.svg`;
-            document.getElementById('d-eco').src = `https://static.openfoodfacts.org/images/attributes/ecoscore-${e}.svg`;
-
-            const badges = document.getElementById('d-allergens');
-            badges.innerHTML = (p.allergens_tags || []).map(t => 
-                `<span class="badge">${t.replace('en:', '').replace('fr:', '')}</span>`
-            ).join('');
+        function showDetail(p) {
+            document.getElementById('d-img').src = p.image_front_url || '';
+            document.getElementById('d-name').innerText = p.product_name;
+            document.getElementById('d-brand').innerText = p.brands;
+            document.getElementById('overlay').style.display = 'block';
+            document.getElementById('detail').style.display = 'block';
         }
 
         function closeDetail() {
-            detail.style.display = 'none';
-            gallery.style.display = 'grid';
+            document.getElementById('overlay').style.display = 'none';
+            document.getElementById('detail').style.display = 'none';
         }
+        
+        // Charger des produits au démarrage
+        window.onload = async () => {
+            const res = await fetch(`${API}/initial`);
+            display(await res.json());
+        };
     </script>
 </body>
 </html>

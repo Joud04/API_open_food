@@ -1,0 +1,122 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap');
+
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: #f4f6f7;
+    margin: 0;
+    color: #2c3e50;
+}
+
+/* Header & Recherche */
+header { background: white; padding: 20px 0 60px; text-align: center; }
+header h1 { margin: 0; }
+.search-container { display: flex; justify-content: center; margin-top: -30px; }
+.search-box { 
+    background: white; padding: 10px; border-radius: 50px; 
+    box-shadow: 0 10px 20px rgba(0,0,0,0.1); display: flex; width: 90%; max-width: 500px; 
+}
+input { flex: 1; border: none; outline: none; padding: 10px; font-size: 16px; }
+button { 
+    background: #2c3e50; color: white; border: none; 
+    padding: 10px 25px; border-radius: 50px; cursor: pointer; 
+}
+
+/* Galerie */
+main { max-width: 1200px; margin: 0 auto; padding: 40px 20px; }
+#gallery {
+    display: grid;
+    /* Force les colonnes à avoir une taille raisonnable */
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 20px;
+}
+
+/* --- CARTE PRODUIT (Code Blindé) --- */
+.card {
+    background: white;
+    border-radius: 15px;
+    padding: 15px;
+    height: 320px; /* HAUTEUR FIXE OBLIGATOIRE */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between; /* Espacement égal */
+    box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+    transition: transform 0.2s;
+    overflow: hidden; /* Empêche tout dépassement */
+}
+.card:hover { transform: translateY(-5px); }
+
+/* 1. Conteneur Image Produit */
+.img-wrap {
+    height: 150px; /* HAUTEUR FIXE */
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: white;
+    margin-bottom: 10px;
+}
+
+/* 2. L'Image du Produit (Herta, Nutella...) */
+.img-wrap img {
+    max-height: 100%;
+    max-width: 100%;
+    width: auto;
+    height: auto;
+    object-fit: contain; /* L'image ne sera jamais déformée */
+}
+
+/* Textes */
+.card h4 {
+    font-size: 0.9rem;
+    margin: 0;
+    height: 40px; /* Hauteur fixe pour 2 lignes de texte */
+    overflow: hidden;
+}
+.card small { color: #888; font-size: 0.8rem; }
+
+/* 3. Les Badges (Nutri-Score) */
+.badges {
+    display: flex;
+    gap: 10px;
+    height: 30px; /* Hauteur fixe pour la zone badges */
+    align-items: center;
+    margin-top: 10px;
+}
+
+/* FORCE la taille des badges */
+.badges img {
+    height: 40px !important; /* Priorité absolue */
+    width: auto !important;
+    object-fit: contain;
+}
+
+/* Détail Overlay */
+#overlay { display: none; position: fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.5); z-index:99; }
+#detail { 
+    display: none; position: fixed; top:50%; left:50%; transform:translate(-50%,-50%);
+    background: white; padding: 30px; border-radius: 20px; width: 90%; max-width: 500px; 
+    z-index: 100; text-align: center;
+}
+
+/* Bouton Admin en haut à droite */
+.admin-link {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    text-decoration: none;
+    color: #2c3e50;
+    font-weight: bold;
+    font-size: 0.9rem;
+    padding: 8px 15px;
+    background: #e0e6e8;
+    border-radius: 20px;
+    border: 1px solid #d1d9dc;
+    transition: all 0.2s;
+}
+
+.admin-link:hover {
+    background: #2c3e50;
+    color: white;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}

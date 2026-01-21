@@ -1,0 +1,18 @@
+http://localhost {
+    route {
+        # API
+        handle /api/* {
+            reverse_proxy backend:3000
+        }
+
+        # Admin (Mongo Express)
+        # "/admin" pour que Mongo Express s'y retrouve.
+        handle /admin/* {
+            reverse_proxy mongo-express:8081
+        }
+
+        handle /* {
+            reverse_proxy frontend:80
+        }
+    }
+}
