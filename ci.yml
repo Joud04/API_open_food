@@ -1,0 +1,35 @@
+name: CI - FreshFood Verification
+
+on:
+  push:
+    branches: [ "main", "master" ]
+  pull_request:
+    branches: [ "main", "master" ]
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest 
+
+    steps:
+    - name: Checkout du code
+      uses: actions/checkout@v3
+
+    - name: Install Backend Dependencies
+      run: |
+        cd backend
+        npm install
+
+    - name:  Vérification Syntaxe Backend
+      run: |
+        cd backend
+        node -c server.js
+        echo "Le code Backend est valide !"
+
+    - name: 🐳 Test Build Docker Frontend
+      run: docker build ./frontend -t food-frontend-test
+
+    - name: 🐳 Test Build Docker Backend
+      run: docker build ./backend -t food-backend-test
+
+    - name: ✅ Validation terminée
+      run: echo "Tout est vert ! Le code est prêt à être déployé."

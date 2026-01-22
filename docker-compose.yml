@@ -66,7 +66,38 @@ services:
       - TZ=Europe/Paris
     restart: unless-stopped
     depends_on:
-      - caddy 
+      - caddy
+
+  # 👇 NOUVEAU : Service DOCKGE (Gestionnaire d'infra) 👇
+  dockge:
+    image: louislam/dockge:1
+    container_name: food-dockge
+    restart: always
+    ports:
+      - "5001:5001"
+    volumes:
+      # Nécessaire pour piloter Docker
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ./data/dockge:/app/data
+      # L'astuce : on mappe le dossier courant (.) pour que Dockge voie ce projet
+      - ./:/opt/stacks/projet     
+    environment:
+      - DOCKGE_STACKS_DIR=/opt/stacks
+
+  # 👇 NOUVEAU : Tunnel 2 (Dédié à l'Admin Infra) 👇
+  dockge-tunnel:
+    image: cloudflare/cloudflared:latest
+    container_name: dockge-tunnel
+    # Il pointe vers le port 5001 de Dockge
+    command: tunnel --protocol http2 --url http://dockge:5001
+    user: "1001:1001"
+    environment:
+      - PUID=1001
+      - PGID=1001
+      - TZ=Europe/Paris
+    restart: unless-stopped
+    depends_on:
+      - dockge
 
 volumes:
   caddy_data:

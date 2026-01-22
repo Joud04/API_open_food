@@ -62,7 +62,7 @@ app.get('/api/search', async (req, res) => {
     const query = req.query.q;
     if (!query) return res.json([]);
 
-    console.log(`🔎 Recherche : "${query}"`);
+    console.log(`Recherche : "${query}"`);
 
     try {
         let results = [];
@@ -88,7 +88,7 @@ app.get('/api/search', async (req, res) => {
                 name: productToSave.product_name || "Inconnu",
                 brand: productToSave.brands || "Inconnu"
             });
-            newEntry.save().then(() => console.log("💾 Sauvegardé en BDD !"));
+            newEntry.save().then(() => console.log("Sauvegardé en BDD !"));
         }
 
         res.json(results);
