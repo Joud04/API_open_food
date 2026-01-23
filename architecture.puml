@@ -1,0 +1,29 @@
+minikube service frontend -n food-project
+
+@startuml
+title Architecture du projet Fresh Food Scan
+
+actor User
+
+node "Navigateur Web" {
+  component "Frontend\n(HTML / CSS / JS)" as frontend
+}
+
+node "Cluster Kubernetes\n(Minikube)" {
+
+  node "Namespace : food-project" {
+
+    component "Frontend" as fe
+    component "Backend API\n(Node.js / Express)" as backend
+    database "MongoDB" as mongo
+    component "Mongo-Express\n(Admin)" as admin
+
+  }
+}
+
+User --> frontend : HTTP
+frontend --> backend : /api/search\n/api/history
+backend --> mongo : lecture / écriture\nhistorique
+admin --> mongo : gestion BDD
+
+@enduml
