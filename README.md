@@ -68,17 +68,19 @@ Pour lancer le projet localement :
     cd votre-repo
     ```
 
-2.  Lancer la stack :
+2.  Lancer minikube :
+3.  
     ```bash
-    docker compose up -d
+    minikube start 
     ```
+     ![Minikube](image/Minikube_Start.png)
     
-3.  Obtenir l'URL publique :
+4.  Obtenir l'URL publique :
     ```bash
     docker logs cloudflared
     ```
 
-4.  Accéder aux services :
+5.  Accéder aux services :
     * Web : Copier l'url du site 
     * Admin : Cliquer sur le bouton admin en haut de la page :
               Id : admin / Password : pass 
