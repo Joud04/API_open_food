@@ -72,33 +72,37 @@ Pour lancer le projet localement :
     ```bash
     minikube start 
     ```
-     ![Minikube](image/Minikube_start.png)
 
-4.  Construire les images Docker
+ ![Minikube](image/Minikube_start.png)
+
+3.  Construire les images Docker
     ```bash
     docker build -t food-backend:latest ./backend
     docker build -t food-frontend:final ./frontend
     ```
+    
      ![Minikube](image/docker_build_backend.png)
      ![Minikube](image/docker_build_front.png)
     
-6.  Création du namespace, chargement des images dans Minikube et lancement des services  :
+4.  Création du namespace, chargement des images dans Minikube et lancement des services  :
     ```bash
    minikube image load food-backend:latest
    minikube image load food-frontend:final
    kubectl create namespace food-project
    kubectl apply -f kubernetes/
-    ```
+   ```
+   
     ![Minikube](image/create_namespace_and_images.png)
 
-7.  Forcer l'utilisation des images local et activation de l'interface Admin :
-      ```bash
+5.  Forcer l'utilisation des images local et activation de l'interface Admin :
+    ```bash
 kubectl patch deployment backend -n food-project --type=json -p='[{"op": "add", "path": "/spec/template/spec/containers/0/imagePullPolicy", "value": "Never"}]'
 kubectl patch deployment frontend -n food-project --type=json -p='[{"op": "add", "path": "/spec/template/spec/containers/0/imagePullPolicy", "value": "Never"}]'
 kubectl set image deployment/frontend frontend=food-frontend:final -n food-project
 kubectl expose deployment mongo-express --type=NodePort --port=8081 -n food-project
-    ```
-![Minikube](image/create_namespace_and_images.png)
+```
+
+![Minikube](image/create_pods.png)
     
 Pour accéder à l'application, il faudra ouvrir 3 terminaux différents :
 
@@ -106,18 +110,21 @@ Pour accéder à l'application, il faudra ouvrir 3 terminaux différents :
     ```bash
     kubectl port-forward -n food-project service/backend 3000:3000
     ```
+    
      ![Minikube](image/Minikube_start.png)
 
 2.  Activer le bouton admin du site :
     ```bash
     kubectl port-forward -n food-project service/mongo-express 8081:8081
     ```
+    
      ![Minikube](image/Minikube_start.png)
 
 3.  Lancer le site web :
     ```bash
     minikube service frontend -n food-project
     ```
+    
      ![Minikube](image/Minikube_start.png)
 
 ---
