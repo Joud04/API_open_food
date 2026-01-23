@@ -113,21 +113,29 @@ Pour accéder à l'application, il faudra ouvrir 3 terminaux différents :
     kubectl port-forward -n food-project service/backend 3000:3000
     ```
     
-     ![Minikube](image/Minikube_start.png)
+     ![Minikube](image/start_backend.png)
 
 2.  Activer le bouton admin du site :
     ```bash
     kubectl port-forward -n food-project service/mongo-express 8081:8081
     ```
     
-     ![Minikube](image/Minikube_start.png)
+     ![Minikube](image/start_bdd.png)
 
 3.  Lancer le site web :
     ```bash
     minikube service frontend -n food-project
     ```
     
-     ![Minikube](image/Minikube_start.png)
+     ![Minikube](image/start_front.png)
+
+
+Voici des captures de l'utilisation de notre site, de la page admin MongoExpress avec la base de données et le dashboard Kubernetes
+
+![Minikube](image/site.png)
+![Minikube](image/Choix_produit.png)
+![Minikube](image/MongoExpress.png)
+![Minikube](image/Dashboard_Kubernetes.png)
 
 ---
 
