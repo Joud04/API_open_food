@@ -85,22 +85,24 @@ Pour lancer le projet localement :
      ![Minikube](image/docker_build_front.png)
     
 4.  Création du namespace, chargement des images dans Minikube et lancement des services  :
-    ```bash
+   
+   ```bash
    minikube image load food-backend:latest
    minikube image load food-frontend:final
    kubectl create namespace food-project
    kubectl apply -f kubernetes/
    ```
    
-    ![Minikube](image/create_namespace_and_images.png)
+![Minikube](image/create_namespace_and_images.png)
 
 5.  Forcer l'utilisation des images local et activation de l'interface Admin :
+
     ```bash
-kubectl patch deployment backend -n food-project --type=json -p='[{"op": "add", "path": "/spec/template/spec/containers/0/imagePullPolicy", "value": "Never"}]'
-kubectl patch deployment frontend -n food-project --type=json -p='[{"op": "add", "path": "/spec/template/spec/containers/0/imagePullPolicy", "value": "Never"}]'
-kubectl set image deployment/frontend frontend=food-frontend:final -n food-project
-kubectl expose deployment mongo-express --type=NodePort --port=8081 -n food-project
-```
+    kubectl patch deployment backend -n food-project --type=json -p='[{"op": "add", "path": "/spec/template/spec/containers/0/imagePullPolicy", "value": "Never"}]'
+    kubectl patch deployment frontend -n food-project --type=json -p='[{"op": "add", "path": "/spec/template/spec/containers/0/imagePullPolicy", "value": "Never"}]'
+    kubectl set image deployment/frontend frontend=food-frontend:final -n food-project
+    kubectl expose deployment mongo-express --type=NodePort --port=8081 -n food-project
+    ```
 
 ![Minikube](image/create_pods.png)
     
