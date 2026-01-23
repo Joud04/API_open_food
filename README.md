@@ -13,7 +13,7 @@
 ## 1. Présentation du Projet
 Ce projet est une application Fullstack permettant de rechercher des produits alimentaires via l'API Open Food Facts. L'utilisateur peut taper le nom d'un produit et l'application affiche ensuite les détails du produit (image, marque, nutri-score ) et sauvegarde automatiquement l'historique des recherches dans une base de données. 
 
-
+*
 
 ---
 
@@ -137,16 +137,26 @@ Au final, l’IA nous a servi de support, mais nous avons assuré la compréhens
 
 
 * **Problème 2 :** Erreur de connexion à l'API due à une exécution trop rapide du Backend
+
+   ![Erreur de connexion à l'API](image/Erreur_connexion_bdd.png)
   
   *Solution : Ajout d'un timeout de 30 secondes dans le code Node.js.*
 
 
 * **Problème 3 :** Problème de dimensions d'image sur le site (la plupart des images étaient très grandes)
-  
-  *Solution : Verrouillage de la taille des images avec des règles CSS strictes.*
 
+    ![Erreur d'affichage des images](image/erreur_affichage.png)
+  
+  *Solution : Verrouillage de la taille des images avec des règles CSS strictes.* 
 
 * **Problème 4 :** Problème lors du redémarrage de Docker : l'historique des produits disparaissait
   
   *Solution : Configuration d'un dossier `data/` pour stocker les données de MongoDB (volume persistant).*
 
+* **Problème 5 :** Erreurs dans le fichier javascript 
+  
+  *Solution : Relecture et communication entre membres du groupe.*
+
+ ![Erreur d'affichage des images](image/404_Not_Found.png)
+ ![Erreur d'affichage des images](image/localhost_notconnect.png)
+ ![Erreur d'affichage des images](image/Cannot_GET.png)
